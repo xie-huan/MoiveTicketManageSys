@@ -12,7 +12,6 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 
-import com.mkk.swing.JTimeChooser;
 
 import dao.Dao;
 
@@ -35,7 +34,7 @@ public class PlayInfoAddFrame extends JFrame {
 	public PlayInfoAddFrame() {
 		setTitle("\u6DFB\u52A0\u653E\u6620\u4FE1\u606F");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 337, 300);
+		setBounds(100, 100, 363, 310);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -54,12 +53,12 @@ public class PlayInfoAddFrame extends JFrame {
 		contentPane.add(label_1);
 		
 		JLabel lblNewLabel_1 = new JLabel("\u8BF7\u8BBE\u5B9A\u5F00\u573A\u65F6\u95F4\uFF1A");
-		lblNewLabel_1.setBounds(42, 178, 96, 15);
+		lblNewLabel_1.setBounds(42, 178, 108, 15);
 		contentPane.add(lblNewLabel_1);
 		
 		//放映电影的选择
 		JComboBox selectMoive = new JComboBox();
-		selectMoive.setBounds(150, 56, 139, 21);
+		selectMoive.setBounds(160, 53, 139, 21);
 		List name = Dao.selectMoiveName();
 		for(int i = 0; i <name.size();i++) {
 			selectMoive.addItem(name.get(i));
@@ -68,7 +67,7 @@ public class PlayInfoAddFrame extends JFrame {
 		
 		//放映电影的放映厅选择
 		JComboBox selectHall = new JComboBox();
-		selectHall.setBounds(150, 97, 139, 21);
+		selectHall.setBounds(160, 94, 139, 21);
 		List id = Dao.selectHallID();
 		for(int i = 0; i <id.size();i++) {
 			selectHall.addItem(id.get(i));
@@ -77,13 +76,13 @@ public class PlayInfoAddFrame extends JFrame {
 		
 		//票价的填写
 		price = new JTextField();
-		price.setBounds(150, 139, 139, 21);
+		price.setBounds(160, 136, 139, 21);
 		contentPane.add(price);
 		price.setColumns(10);
 		
 		//选择开始时间的按钮
 		JButton start_time = new DateChooserJButton(new SimpleDateFormat("yyyy/MM/dd HH"),"2018/01/01 22");
-		start_time.setBounds(148, 174, 141, 23);
+		start_time.setBounds(160, 174, 141, 23);
 		contentPane.add(start_time);
 		
 		//确认添加按钮
@@ -99,6 +98,12 @@ public class PlayInfoAddFrame extends JFrame {
 				int i = Dao.insertPlayInfo(moive_id, hall_id, set_price, time);
 				if(i == 1) {
 					JOptionPane.showMessageDialog(null, "成功添加！");
+					//添加成功后为此场次建立一张座位表
+					int schedule_id = Dao.selectScheduleIDByInfo(moive_id,
+																hall_id,
+																set_price,
+																time);
+					int j = Dao.creatTableSeatForSchedule(schedule_id,hall_id);
 					
 					PlayInfoManage.table.removeAll();
 					Object[][] results = PlayInfoManage.getFileStates(Dao.selectPlayInfo());
@@ -114,7 +119,7 @@ public class PlayInfoAddFrame extends JFrame {
 				}
 			}
 		});
-		confirm.setBounds(113, 217, 93, 23);
+		confirm.setBounds(123, 219, 93, 23);
 		contentPane.add(confirm);
 	}
 }

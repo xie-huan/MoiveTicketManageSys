@@ -5,7 +5,9 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import data.Moive;
 import data.Schedule;
@@ -252,23 +254,30 @@ public class Dao {
 		return i;
 	}
 
+	public static int UpdateSellerByName(String s_username, String s_pwd) {
+		int i = 0;
+		try {
+			String sql = "update seller set Seller_Pwd='" + s_pwd + "'where Seller_Name='" + s_username + "'";
+			System.out.println(sql);
+			i = Dao.executeUpdate(sql);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		Dao.close();
+		return i;
+	}
+
 	// 放映信息查询
 	public static List selectPlayInfo() {
 		List list = new ArrayList();
-		String sql = "select * from Schedule";
+		String sql = "select * from Schedule natural join Moive";
 		System.out.println(sql);
 		ResultSet rs = Dao.executeQuery(sql);
 		try {
 			while (rs.next()) {
 				Schedule playinfo = new Schedule();
 				playinfo.id = rs.getInt("Schedule_ID");
-
-				int moive_id = rs.getInt("Moive_ID");
-				ResultSet getMoiveName = Dao.executeQuery("select * from Moive where Moive_ID=" + moive_id);
-				System.out.println("select * from Moive where Moive_ID=" + moive_id);
-				getMoiveName.next();
-				playinfo.moive_name = getMoiveName.getString("Moive_Name");
-
+				playinfo.moive_name = rs.getString("Moive_Name");
 				playinfo.hall_id = rs.getInt("Hall_ID");
 				playinfo.price = rs.getFloat("Schedule_Price");
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -296,13 +305,13 @@ public class Dao {
 		return i;
 	}
 
-	//添加影片放映信息
-	public static int insertPlayInfo(int moive_id,int hall_id,float price,String time) {
+	// 添加影片放映信息
+	public static int insertPlayInfo(int moive_id, int hall_id, float price, String time) {
 		int i = 0;
 		try {
-			//java.sql.Date date=java.sql.Date.valueOf(time);
-			String sql = "insert into Schedule(Moive_ID,Hall_ID,Schedule_Price,Schedule_BeginTime) values('"
-					+ moive_id + "','" + hall_id + "','" + price + "','" + time + "')";
+			// java.sql.Date date=java.sql.Date.valueOf(time);
+			String sql = "insert into Schedule(Moive_ID,Hall_ID,Schedule_Price,Schedule_BeginTime) values('" + moive_id
+					+ "','" + hall_id + "','" + price + "','" + time + "')";
 			System.out.println(sql);
 			i = Dao.executeUpdate(sql);
 		} catch (Exception e) {
@@ -311,7 +320,7 @@ public class Dao {
 		Dao.close();
 		return i;
 	}
-	
+
 	// 影片名获取
 	public static List selectMoiveName() {
 		List list = new ArrayList();
@@ -350,12 +359,12 @@ public class Dao {
 		return list;
 	}
 
-	//根据影片名获取影片编号
+	// 根据影片名获取影片编号
 	public static int selectMoiveIDFromMoiveName(String moive_name) {
 		int id = 0;
-		
-		String sql = "select * from Moive where Moive_Name='"+moive_name+"'";
-		System.out.println(sql);
+
+		String sql = "select * from Moive where Moive_Name='" + moive_name + "'";
+		// System.out.println(sql);
 		ResultSet rs = Dao.executeQuery(sql);
 		try {
 			while (rs.next()) {
@@ -367,12 +376,35 @@ public class Dao {
 		Dao.close();
 		return id;
 	}
-	
-	//更新放映表信息中的价格（暂时只支持价格更改）
-	public static int UpdateSchedule(int id,float price) {
+
+	public static List SelectScheduleByID(int id) {
+		List list = new ArrayList();
+		String sql = "select * from Schedule natural join Moive where Schedule_ID=" + id;
+		System.out.println(sql);
+		ResultSet rs = Dao.executeQuery(sql);
+		try {
+			while (rs.next()) {
+				Schedule playinfo = new Schedule();
+				playinfo.id = rs.getInt("Schedule_ID");
+				playinfo.moive_name = rs.getString("Moive_Name");
+				playinfo.hall_id = rs.getInt("Hall_ID");
+				playinfo.price = rs.getFloat("Schedule_Price");
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				playinfo.time = sdf.format(new Date(rs.getTimestamp(5).getTime()));
+				list.add(playinfo);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		Dao.close();
+		return list;
+	}
+
+	// 更新放映表信息中的价格（暂时只支持价格更改）
+	public static int UpdateSchedule(int id, float price) {
 		int i = 0;
 		try {
-			String sql = "update Schedule set Schedule_Price=" + price + " where Schedule_ID="+id;
+			String sql = "update Schedule set Schedule_Price=" + price + " where Schedule_ID=" + id;
 			System.out.println(sql);
 			i = Dao.executeUpdate(sql);
 		} catch (Exception e) {
@@ -380,5 +412,71 @@ public class Dao {
 		}
 		Dao.close();
 		return i;
+	}
+
+	public static int selectScheduleIDByInfo(int moive_id, int hall_id, float set_price, String time) {
+		int schedule_id = 0;
+
+		String sql = "select * from Schedule where Moive_ID='" + moive_id + "'" + " and Hall_ID='" + hall_id
+				+ "' and Schedule_Price = '" + set_price + "' and Schedule_BeginTime = '" + time + "'";
+		System.out.println(sql);
+		ResultSet rs = Dao.executeQuery(sql);
+		try {
+			while (rs.next()) {
+				schedule_id = rs.getInt("Schedule_ID");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		Dao.close();
+		return schedule_id;
+	}
+
+	public static int creatTableSeatForSchedule(int schedule_id, int hall_id) {
+		int i = 0;
+		try {
+			String sql = "create table seat_" + schedule_id + " select * from Seat where Hall_ID = " + hall_id;
+			System.out.println(sql);
+			i = Dao.executeUpdate(sql);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		Dao.close();
+		return i;
+	}
+
+	public static int selectCountOfSeat(int hall_id) {
+		String sql = "select count(Seat_ID) as num from Seat where Hall_ID = " + hall_id;
+		ResultSet rs = executeQuery(sql);
+		int i = 0;
+		try {
+			rs.next();
+			i = rs.getInt("num");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return i;
+	}
+
+	public static int[][] setSeatSold(int schedule_id, int[][] sold) {
+		String sql = "select Seat_IsActive from seat_" + schedule_id;
+		System.out.println(sql);
+		ResultSet rs = executeQuery(sql);
+
+		int i = 1;
+		int j = 1;
+		try {
+			while (rs.next()) {
+				sold[i][j] = rs.getInt("Seat_IsActive");
+				j++;
+				if (j % 5 == 0) {
+					j = 1;
+					i++;
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return sold;
 	}
 }

@@ -76,18 +76,6 @@ public class Managersys extends JFrame {
 		moiveInfo.setOpaque(false);
 		toolBar.add(moiveInfo);
 		
-		JButton sellerInfo = new JButton("\u552E\u7968\u5458\u4FE1\u606F\u7BA1\u7406  ");
-		sellerInfo.setBackground(UIManager.getColor("Button.background"));
-		sellerInfo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				SellerManage sm = new SellerManage();
-				sm.setVisible(true);
-				sm.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-			}
-		});
-		sellerInfo.setOpaque(false);
-		toolBar.add(sellerInfo);
-		
 		JButton moiveHall = new JButton("\u653E\u6620\u5385\u7535\u5F71\u5B89\u6392  ");
 		moiveHall.setBackground(SystemColor.activeCaptionBorder);
 		moiveHall.addActionListener(new ActionListener() {
@@ -109,6 +97,18 @@ public class Managersys extends JFrame {
 		order.setBackground(SystemColor.activeCaptionBorder);
 		order.setOpaque(false);
 		toolBar.add(order);
+		
+		JButton sellerInfo = new JButton("\u552E\u7968\u5458\u4FE1\u606F\u7BA1\u7406  ");
+		sellerInfo.setBackground(UIManager.getColor("Button.background"));
+		sellerInfo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				SellerManage sm = new SellerManage();
+				sm.setVisible(true);
+				sm.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+			}
+		});
+		sellerInfo.setOpaque(false);
+		toolBar.add(sellerInfo);
 
 	}
 }
