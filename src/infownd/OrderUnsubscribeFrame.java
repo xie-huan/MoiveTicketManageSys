@@ -7,10 +7,12 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import dao.Dao;
 import data.Schedule;
 
 public class OrderUnsubscribeFrame extends JFrame {
@@ -97,7 +99,12 @@ public class OrderUnsubscribeFrame extends JFrame {
 		JButton unsubsribe = new JButton("ÍË¶©");
 		unsubsribe.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-
+				int i = Dao.unsubscribeOrder(info.hall_id, info.id, Integer.parseInt(row.getText()),
+						Integer.parseInt(column.getText()));
+				if (i == 1) {
+					JOptionPane.showMessageDialog(null, "ÍË¶©³É¹¦");
+					dispose();
+				}
 			}
 		});
 		unsubsribe.setBounds(101, 217, 93, 23);

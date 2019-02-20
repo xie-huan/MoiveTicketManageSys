@@ -124,16 +124,16 @@ public class Sellersys extends JFrame {
 		JButton unsubscribe = new JButton("电影票退订");
 		unsubscribe.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				// try {
-				int selrow = table.getSelectedRow();
-				int id = Integer.parseInt(table.getValueAt(selrow, 0).toString());
-				List list = Dao.SelectScheduleByID(id);
-				OrderUnsubscribeFrame ouf = new OrderUnsubscribeFrame(list);
-				ouf.setVisible(true);
-				ouf.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-				// } catch (Exception e1) {
-				// JOptionPane.showMessageDialog(null, "请先选择放映场次!!!");
-				// }
+				try {
+					int selrow = table.getSelectedRow();
+					int id = Integer.parseInt(table.getValueAt(selrow, 0).toString());
+					List list = Dao.SelectScheduleByID(id);
+					OrderUnsubscribeFrame ouf = new OrderUnsubscribeFrame(list);
+					ouf.setVisible(true);
+					ouf.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, "请先选择放映场次!!!");
+				}
 			}
 		});
 		unsubscribe.setBackground(Color.DARK_GRAY);

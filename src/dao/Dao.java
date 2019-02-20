@@ -577,4 +577,42 @@ public class Dao {
 		return i;
 	}
 
+	public static int unsubscribeOrder(int hall_id, int schedule_id, int row, int column) {
+		int seat_id = selectSeatIDByRowAndColumn(row, column, hall_id);
+		int order_id = selectOrderIDByInfo(seat_id, schedule_id);
+		int i = 0;
+		try {
+			deleteOrderHead(seat_id, order_id);
+			deleteOrderByID(order_id);
+			i = Dao.updateSeatIsActive(0, seat_id, schedule_id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return i;
+	}
+
+	private static void deleteOrderHead(int seat_id, int order_id) {
+		String sql = "delete from OrderSeat where Seat_ID = " + seat_id + " and Order_ID = " + order_id;
+		Dao.executeUpdate(sql);
+	}
+
+	private static void deleteOrderByID(int order_id) {
+		String sql = "delete from Orders where Order_ID = " + order_id;
+		Dao.executeUpdate(sql);
+	}
+
+	private static int selectOrderIDByInfo(int seat_id, int schedule_id) {
+		int order_id = 0;
+		String sql = "select Order_ID from OrderSeat natural join Orders Where Seat_ID = " + seat_id
+				+ " and Schedule_ID = " + schedule_id;
+		ResultSet rs = Dao.executeQuery(sql);
+		try {
+			rs.next();
+			order_id = rs.getInt("Order_ID");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return order_id;
+	}
+
 }
