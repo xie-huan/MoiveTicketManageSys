@@ -2,22 +2,18 @@ package infownd;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import dao.Dao;
 import data.Schedule;
 
-public class OrderAddFrame extends JFrame {
+public class OrderUnsubscribeFrame extends JFrame {
 
 	private JPanel contentPane;
 	public static JTextField row;
@@ -26,28 +22,14 @@ public class OrderAddFrame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public OrderAddFrame(List list) {
-
-		setTitle("\u8BA2\u7968\u9875\u9762");
+	public OrderUnsubscribeFrame(List list) {
+		setTitle("\u9000\u8BA2\u9875\u9762");
+		setBounds(100, 100, 303, 300);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 308, 298);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-
-		/*
-		 * Label label = new JLabel("\u8BF7\u9009\u62E9\u7535\u5F71\u540D\u79F0\uFF1A");
-		 * label.setBounds(10, 35, 103, 15); contentPane.add(label);
-		 * 
-		 * selectMoive.setBounds(123, 32, 122, 21); List name = Dao.selectMoiveName();
-		 * for(int i = 0; i <name.size();i++) { selectMoive.addItem(name.get(i)); }
-		 * selectMoive.addItemListener(new ItemListener() {
-		 * 
-		 * @Override public void itemStateChanged(ItemEvent e) { if (e.getStateChange()
-		 * == ItemEvent.SELECTED) { String text=(String)selectMoive.getSelectedItem();
-		 * //System.out.println(text); } } }); contentPane.add(selectMoive);
-		 */
 
 		JLabel lblNewLabel = new JLabel("\u60A8\u9009\u62E9\u7684\u573A\u6B21\u662F\uFF1A");
 		lblNewLabel.setBounds(28, 30, 130, 15);
@@ -86,7 +68,7 @@ public class OrderAddFrame extends JFrame {
 		JButton chooseSeat = new JButton("选择");
 		chooseSeat.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				SeatChooseFrame scf = new SeatChooseFrame(info.id, info.hall_id, 1);
+				SeatChooseFrame scf = new SeatChooseFrame(info.id, info.hall_id, 2);
 				scf.setVisible(true);
 				scf.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 			}
@@ -112,19 +94,14 @@ public class OrderAddFrame extends JFrame {
 		contentPane.add(column);
 		column.setColumns(10);
 
-		JButton confirm = new JButton("确认购票");
-		confirm.addActionListener(new ActionListener() {
+		JButton unsubsribe = new JButton("退订");
+		unsubsribe.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				int i = Dao.createOrder(info.id, info.price, df.format(new Date()), Integer.parseInt(row.getText()),
-						Integer.parseInt(column.getText()), info.hall_id);
-				if (i == 1) {
-					JOptionPane.showMessageDialog(null, "订票成功");
-					dispose();
-				}
+
 			}
 		});
-		confirm.setBounds(90, 226, 93, 23);
-		contentPane.add(confirm);
+		unsubsribe.setBounds(101, 217, 93, 23);
+		contentPane.add(unsubsribe);
+
 	}
 }

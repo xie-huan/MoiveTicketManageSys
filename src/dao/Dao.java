@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import data.Moive;
 import data.Schedule;
 import data.Seller;
@@ -58,7 +60,7 @@ public class Dao {
 		}
 	}
 
-	// 更新
+	// 更新数据库
 	private static int executeUpdate(String sql) {
 		try {
 			if (conn == null)
@@ -180,6 +182,7 @@ public class Dao {
 	}
 
 	// 售票员登录验证
+	@SuppressWarnings("finally")
 	public static boolean checkUserLogin(String user, String pwd) {
 		String userCheckSQL = "select * from Seller where Seller_Name='" + user + "' and Seller_Pwd='" + pwd + "'";
 		System.out.println(userCheckSQL);
@@ -377,6 +380,7 @@ public class Dao {
 		return id;
 	}
 
+	// 根据放映ID获取放映信息
 	public static List SelectScheduleByID(int id) {
 		List list = new ArrayList();
 		String sql = "select * from Schedule natural join Moive where Schedule_ID=" + id;
@@ -414,6 +418,7 @@ public class Dao {
 		return i;
 	}
 
+	// 获取放映信息ID
 	public static int selectScheduleIDByInfo(int moive_id, int hall_id, float set_price, String time) {
 		int schedule_id = 0;
 
@@ -432,6 +437,7 @@ public class Dao {
 		return schedule_id;
 	}
 
+	// 为每个放映信息添加一个新的座位表
 	public static int creatTableSeatForSchedule(int schedule_id, int hall_id) {
 		int i = 0;
 		try {
@@ -445,6 +451,7 @@ public class Dao {
 		return i;
 	}
 
+	// 计算放映厅的位置个数
 	public static int selectCountOfSeat(int hall_id) {
 		String sql = "select count(Seat_ID) as num from Seat where Hall_ID = " + hall_id;
 		ResultSet rs = executeQuery(sql);
@@ -458,7 +465,8 @@ public class Dao {
 		return i;
 	}
 
-	public static int[][] setSeatSold(int schedule_id, int[][] sold) {
+	// 从数据库中提取座位是否被出售
+	public static int[][] setSeatSold(int schedule_id, int[][] sold, int sqrtNum) {
 		String sql = "select Seat_IsActive from seat_" + schedule_id;
 		System.out.println(sql);
 		ResultSet rs = executeQuery(sql);
@@ -469,7 +477,7 @@ public class Dao {
 			while (rs.next()) {
 				sold[i][j] = rs.getInt("Seat_IsActive");
 				j++;
-				if (j % 5 == 0) {
+				if (j % (sqrtNum + 1) == 0) {
 					j = 1;
 					i++;
 				}
@@ -479,4 +487,94 @@ public class Dao {
 		}
 		return sold;
 	}
+
+	// 更新座位出售状态
+	public static int updateSeatIsActive(int isActive, int seat_id, int schedule_id) {
+		int i = 0;
+		try {
+			String sql = "update Seat_" + schedule_id + " set Seat_IsActive=" + isActive + " where Seat_ID=" + seat_id;
+			System.out.println(sql);
+			i = Dao.executeUpdate(sql);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		// Dao.close();
+		return i;
+	}
+
+	public static int selectIsActive(int schedule_id, int seat_id) {
+		int isActive = 0;
+		String sql = "select * from Seat_" + schedule_id + " where Seat_ID = " + seat_id;
+		ResultSet rs = Dao.executeQuery(sql);
+		try {
+			while (rs.next()) {
+				isActive = rs.getInt("Seat_IsActive");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return isActive;
+	}
+
+	public static int createOrder(int id, float price, String buyDate, int row, int column, int hall_id) {
+		int i = 0;
+		try {
+			// 先检查座位是否被预订
+			int seat_id = selectSeatIDByRowAndColumn(row, column, hall_id);// 获取座位编号
+			int j = Dao.selectIsActive(id, seat_id);
+			if (j == 1) {
+				JOptionPane.showMessageDialog(null, "此位置已被预订，请重新选择！");
+			} else {
+				// 创建订单详细信息
+				Dao.updateSeatIsActive(1, seat_id, id);
+				String creatOrdersSql = "insert into Orders(Schedule_ID,Order_Price,Order_BuyDate) values(" + id + ",'"
+						+ price + "','" + buyDate + "')";
+				Dao.executeUpdate(creatOrdersSql);
+				System.out.println(creatOrdersSql);
+
+				// 创建订单头
+				int order_id = Dao.selectOrderIDByInfo(id, price, buyDate);
+				String sql = "insert into orderseat(Order_ID,Seat_ID) values('" + order_id + "','" + seat_id + "')";
+				System.out.println(sql);
+				i = Dao.executeUpdate(sql);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		Dao.close();
+		return i;
+
+	}
+
+	// 根据订单信息查找订单号
+	private static int selectOrderIDByInfo(int id, float price, String buyDate) {
+		String sql = "select * from Orders where Schedule_ID = " + id + " and Order_Price = " + price
+				+ " and Order_BuyDate='" + buyDate + "'";
+		ResultSet rs = executeQuery(sql);
+		int i = 0;
+		try {
+			rs.next();
+			i = rs.getInt("Order_ID");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return i;
+	}
+
+	// 根据行、列和放映厅查找座位号
+	public static int selectSeatIDByRowAndColumn(int row, int column, int hall_id) {
+		String sql = "select * from Seat where Seat_Row = " + row + " and Seat_Column = " + column + " and Hall_ID="
+				+ hall_id;
+		ResultSet rs = executeQuery(sql);
+		int i = 0;
+		try {
+			rs.next();
+			i = rs.getInt("Seat_ID");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return i;
+	}
+
 }
