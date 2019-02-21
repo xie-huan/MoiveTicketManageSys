@@ -615,4 +615,10 @@ public class Dao {
 		return order_id;
 	}
 
+	// 当删除放映信息的时候，同时删除对应的座位表
+	public static void deleteSeat(int id) {
+		String sql = "drop table seat_" + id;
+		Dao.executeUpdate(sql);
+	}
+
 }

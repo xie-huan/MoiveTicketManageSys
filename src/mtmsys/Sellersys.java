@@ -93,7 +93,11 @@ public class Sellersys extends JFrame {
 				Object[][] results = getFileStates2(Dao.selectPlayInfo());
 				String[] columnNames = { "放映编号", "影片名称", "放映厅", "价格", "放映日期" };
 				table = new JTable(results, columnNames);
-				table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+				table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+				table.getColumnModel().getColumn(1).setPreferredWidth(100);
+				table.getColumnModel().getColumn(2).setPreferredWidth(50);
+				table.getColumnModel().getColumn(3).setPreferredWidth(50);
+				table.getColumnModel().getColumn(4).setPreferredWidth(150);
 
 				scrollPane.setViewportView(table);
 			}
