@@ -58,30 +58,36 @@ public class PlayInfoManage extends JFrame {
 				piaf.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 			}
 		});
-		add.setBounds(20, 193, 120, 23);
+		add.setBounds(20, 193, 120, 43);
 		contentPane.add(add);
 
 		JButton del = new JButton("删除放映信息");
 		del.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int selrow = table.getSelectedRow();
-				int id = Integer.parseInt(table.getValueAt(selrow, 0).toString());
-				int i = Dao.DeletePlayInfo(id);
-				Dao.deleteSeat(id);
-				if (i == 1) {
-					JOptionPane.showMessageDialog(null, "删除成功！");
+				try {
+					int selrow = table.getSelectedRow();
+					int id = Integer.parseInt(table.getValueAt(selrow, 0).toString());
+					int i = Dao.DeletePlayInfo(id);
+					Dao.deleteSeat(id);
+					if (i == 1) {
+						JOptionPane.showMessageDialog(null, "删除成功！");
+					} else {
+						JOptionPane.showMessageDialog(null, "删除失败，该场次已有座位被预定");
+					}
+					table.removeAll();
+					Object[][] results = getFileStates(Dao.selectPlayInfo());
+					String[] columnNames = { "放映编号", "影片名称", "放映厅", "价格", "放映日期" };
+					table = new JTable(results, columnNames);
+					table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+					table.getColumnModel().getColumn(1).setPreferredWidth(120);
+					table.getColumnModel().getColumn(4).setPreferredWidth(150);
+					scrollPane.setViewportView(table);
+				} catch (Exception e1) {
+
 				}
-				table.removeAll();
-				Object[][] results = getFileStates(Dao.selectPlayInfo());
-				String[] columnNames = { "放映编号", "影片名称", "放映厅", "价格", "放映日期" };
-				table = new JTable(results, columnNames);
-				table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-				table.getColumnModel().getColumn(1).setPreferredWidth(120);
-				table.getColumnModel().getColumn(4).setPreferredWidth(150);
-				scrollPane.setViewportView(table);
 			}
 		});
-		del.setBounds(150, 193, 121, 23);
+		del.setBounds(150, 193, 121, 43);
 		contentPane.add(del);
 
 		JButton modify = new JButton("修改放映信息");
@@ -106,7 +112,7 @@ public class PlayInfoManage extends JFrame {
 				}
 			}
 		});
-		modify.setBounds(281, 193, 120, 23);
+		modify.setBounds(281, 193, 120, 43);
 		contentPane.add(modify);
 
 		JButton update = new JButton("刷    新");
@@ -122,7 +128,7 @@ public class PlayInfoManage extends JFrame {
 				scrollPane.setViewportView(table);
 			}
 		});
-		update.setBounds(411, 193, 103, 23);
+		update.setBounds(411, 193, 103, 43);
 		contentPane.add(update);
 
 		JLabel lblNewLabel = new JLabel("");

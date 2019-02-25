@@ -1,7 +1,7 @@
 package wnd;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -15,8 +15,6 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
-import java.awt.Color;
-import java.awt.Font;
 
 import dao.Dao;
 import mtmsys.Managersys;
@@ -38,40 +36,40 @@ public class ManagerLoginFrame extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		JLabel admin_name = new JLabel("’       ∫≈£∫");
 		admin_name.setFont(new Font("Œ¢»Ì—≈∫⁄", Font.BOLD, 14));
 		admin_name.setForeground(Color.WHITE);
 		admin_name.setBounds(58, 67, 84, 15);
 		contentPane.add(admin_name);
-		
+
 		JLabel pwd = new JLabel("√‹      ¬Î£∫");
 		pwd.setFont(new Font("Œ¢»Ì—≈∫⁄", Font.BOLD, 14));
 		pwd.setForeground(Color.WHITE);
 		pwd.setBounds(58, 125, 81, 15);
 		contentPane.add(pwd);
-		
+
 		admin_name_text = new JTextField();
 		admin_name_text.setBounds(148, 64, 128, 21);
 		contentPane.add(admin_name_text);
 		admin_name_text.setColumns(10);
-		
+
 		admin_pwd = new JPasswordField();
 		admin_pwd.setBounds(149, 122, 128, 21);
 		contentPane.add(admin_pwd);
-		
+
 		JButton login = new JButton("µ«  ¬º");
 		login.setFont(new Font("Œ¢»Ì—≈∫⁄", Font.PLAIN, 12));
 		login.setBackground(UIManager.getColor("Button.background"));
 		login.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(Dao.checkLogin(admin_name_text.getText(), admin_pwd.getText())){
+				if (Dao.checkLogin(admin_name_text.getText(), admin_pwd.getText())) {
 					JOptionPane.showMessageDialog(null, "µ«¬º≥…π¶");
 					Managersys ms = new Managersys();
 					ms.setVisible(true);
 					dispose();
 				} else {
-					JOptionPane.showMessageDialog(null, "√‹¬Î¥ÌŒÛªÚ”√ªß¥Ê‘⁄");
+					JOptionPane.showMessageDialog(null, "√‹¬Î¥ÌŒÛªÚ”√ªß¥Ê‘⁄,«Î÷ÿ–¬ ‰»Î");
 					admin_name_text.setText("");
 					admin_pwd.setText("");
 				}
@@ -79,18 +77,19 @@ public class ManagerLoginFrame extends JFrame {
 		});
 		login.setBounds(58, 183, 93, 23);
 		contentPane.add(login);
-		
-		JButton button = new JButton("ÕÀ  ≥ˆ");
+
+		JButton button = new JButton("∑µ  ªÿ");
 		button.setFont(new Font("Œ¢»Ì—≈∫⁄", Font.PLAIN, 12));
 		button.setBackground(UIManager.getColor("Button.background"));
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				SelectFrame.selectFrame.setVisible(true);
 				dispose();
 			}
 		});
 		button.setBounds(181, 183, 93, 23);
 		contentPane.add(button);
-		
+
 		JLabel l = new JLabel("");
 		l.setIcon(new ImageIcon("img/adminLogin.jpg"));
 		l.setBounds(0, 0, 349, 240);

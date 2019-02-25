@@ -170,15 +170,38 @@ public class Dao {
 	public static int InsertSeller(String user_name, String user_pwd) {
 		int i = 0;
 		try {
-			String sql = "insert into Seller (Seller_Name,Seller_Pwd) values('" + user_name + "','" + user_pwd + "')";
-			System.out.println(sql);
-			i = Dao.executeUpdate(sql);
+			// 先查询是否已存在用户
+			int j = Dao.selectUserName(user_name);
+			if (j == 1) {
+				i = 0;
+			} else {
+				// 不存在则更新数据库
+				String sql = "insert into Seller (Seller_Name,Seller_Pwd) values('" + user_name + "','" + user_pwd
+						+ "')";
+				System.out.println(sql);
+				i = Dao.executeUpdate(sql);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		Dao.close();
 		return i;
 
+	}
+
+	// 查询是否存在售票员用户，若已存在，则返回1，否则返回0
+	private static int selectUserName(String user_name) {
+		int i = 0;
+		try {
+			String sql = "select * from Seller where Seller_Name = '" + user_name + "'";
+			ResultSet rs = Dao.executeQuery(sql);
+			if (rs.next()) {
+				i = 1;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return i;
 	}
 
 	// 售票员登录验证
@@ -257,6 +280,7 @@ public class Dao {
 		return i;
 	}
 
+	// 售票员选择自己修改密码
 	public static int UpdateSellerByName(String s_username, String s_pwd) {
 		int i = 0;
 		try {
@@ -577,6 +601,7 @@ public class Dao {
 		return i;
 	}
 
+	// 取消订单
 	public static int unsubscribeOrder(int hall_id, int schedule_id, int row, int column) {
 		int seat_id = selectSeatIDByRowAndColumn(row, column, hall_id);
 		int order_id = selectOrderIDByInfo(seat_id, schedule_id);
