@@ -14,3 +14,13 @@
 2019/2/20更新：完成售票员预订电影票、退订电影票功能；
 
 2019/2/26更新：修复一些小BUG，上传了数据库创建的sql脚本。
+
+
+附：
+电影院前台订票系统使用方法：
+1.配置要求：
+     1.1 Java环境：JDK、JRE；（自行百度安装即可）
+     1.2 数据库环境：MySQL8.0；（自行百度安装即可）
+           运行本项目，需要修改package dao里面的Dao.java文件，修改变量dbUser和dbPwd为自己的MySQL用户名和密码。
+2.完成配置要求后，通过命令行登录MySQL，找到createDatabase.sql文件对于的目录，执行source createDatabase.sql，创建系统运行所需数据库。
+3.使用eclipse或Intellij IDEA运行本项目的selectFrame.java文件。
