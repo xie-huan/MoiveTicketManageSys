@@ -1,0 +1,60 @@
+create database moivetheater;
+use moivetheater;
+create table Seller(Seller_ID int primary key auto_increment,Seller_Name varchar(255),Seller_Pwd varchar(255));
+create table Manager(Manager_ID int primary key auto_increment,Manager_Name varchar(255),Manager_Pwd varchar(255));
+create table Moive(Moive_ID int primary key auto_increment,Moive_Name varchar(255),Moive_Director varchar(255),Moive_Duration varchar(255),Moive_Description varchar(255));
+create table Hall(Hall_ID int primary key,Hall_Seats int);
+create table Seat(Seat_ID int primary key,Hall_ID int,Seat_Row int,Seat_Column int,Seat_IsActive bit,constraint seat_hall foreign key (Hall_ID) references Hall(Hall_ID));
+create table schedule(Schedule_ID int primary key auto_increment,Moive_ID int, Hall_ID int,Schedule_Price decimal(10,2),Schedule_BeginTime datetime,constraint hall foreign key (Hall_ID) references Hall(Hall_ID),constraint moive foreign key (Moive_ID) references Moive(Moive_ID));
+create table Orders(Order_ID int primary key auto_increment,Schedule_ID int,Order_Price decimal(10,2),Order_BuyDate datetime,constraint schedule foreign key (Schedule_ID) references Schedule(Schedule_ID));
+create table OrderSeat(Order_ID int,Seat_ID int,primary key(Order_ID,Seat_ID),constraint order_ foreign key (Order_ID) references Orders(Order_ID),constraint seat_ foreign key (Seat_ID) references Seat(Seat_ID));
+
+insert Manager(Manager_Name,Manager_Pwd) values("Admin","123456");
+
+insert Hall values(1,16);
+insert Hall values(2,9);
+insert Hall values(3,16);
+
+insert Seat values(1,1,1,1,0);
+insert Seat values(2,1,1,2,0);
+insert Seat values(3,1,1,3,0);
+insert Seat values(4,1,1,4,0);
+insert Seat values(5,1,2,1,0);
+insert Seat values(6,1,2,2,0);
+insert Seat values(7,1,2,3,0);
+insert Seat values(8,1,2,4,0);
+insert Seat values(9,1,3,1,0);
+insert Seat values(10,1,3,2,0);
+insert Seat values(11,1,3,3,0);
+insert Seat values(12,1,3,4,0);
+insert Seat values(13,1,4,1,0);
+insert Seat values(14,1,4,2,0);
+insert Seat values(15,1,4,3,0);
+insert Seat values(16,1,4,4,0);
+
+insert Seat values(17,2,1,1,0);
+insert Seat values(18,2,1,2,0);
+insert Seat values(19,2,1,3,0);
+insert Seat values(20,2,2,1,0);
+insert Seat values(21,2,2,2,0);
+insert Seat values(22,2,2,3,0);
+insert Seat values(23,2,3,1,0);
+insert Seat values(24,2,3,2,0);
+insert Seat values(25,2,3,3,0);
+
+insert Seat values(26,3,1,1,0);
+insert Seat values(27,3,1,2,0);
+insert Seat values(28,3,1,3,0);
+insert Seat values(29,3,1,4,0);
+insert Seat values(30,3,2,1,0);
+insert Seat values(31,3,2,2,0);
+insert Seat values(32,3,2,3,0);
+insert Seat values(33,3,2,4,0);
+insert Seat values(34,3,3,1,0);
+insert Seat values(35,3,3,2,0);
+insert Seat values(36,3,3,3,0);
+insert Seat values(37,3,3,4,0);
+insert Seat values(38,3,4,1,0);
+insert Seat values(39,3,4,2,0);
+insert Seat values(40,3,4,3,0);
+insert Seat values(41,3,4,4,0);
