@@ -1,5 +1,6 @@
 package infownd;
 
+import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,28 +31,32 @@ public class MoiveAddFrame extends JFrame {
 	public MoiveAddFrame() {
 		setTitle("µçÓ°ÐÅÏ¢Ìí¼Ó");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 321, 331);
+		setBounds(100, 100, 339, 319);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
 		JLabel label = new JLabel("Ó°Æ¬Ãû£º");
+		label.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 13));
 		label.setForeground(SystemColor.window);
 		label.setBounds(62, 46, 54, 15);
 		contentPane.add(label);
 
 		JLabel label_1 = new JLabel("µ¼  ÑÝ£º");
+		label_1.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 13));
 		label_1.setForeground(SystemColor.window);
 		label_1.setBounds(62, 88, 54, 15);
 		contentPane.add(label_1);
 
 		JLabel label_2 = new JLabel("\u6301\u7EED\u65F6\u95F4\uFF1A");
+		label_2.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 13));
 		label_2.setForeground(SystemColor.window);
 		label_2.setBounds(62, 129, 75, 15);
 		contentPane.add(label_2);
 
 		JLabel label_4 = new JLabel("\u7535\u5F71\u7B80\u4ECB\uFF1A");
+		label_4.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 13));
 		label_4.setForeground(SystemColor.window);
 		label_4.setBounds(62, 168, 75, 15);
 		contentPane.add(label_4);
@@ -77,6 +82,7 @@ public class MoiveAddFrame extends JFrame {
 		movieDescription.setColumns(10);
 
 		JButton add = new JButton("Ìí  ¼Ó");
+		add.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 13));
 		add.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (moiveName.getText().length() == 0) {
@@ -103,7 +109,7 @@ public class MoiveAddFrame extends JFrame {
 				}
 			}
 		});
-		add.setBounds(103, 238, 93, 23);
+		add.setBounds(107, 247, 93, 23);
 		contentPane.add(add);
 
 		JLabel label_3 = new JLabel("");

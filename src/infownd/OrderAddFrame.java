@@ -1,5 +1,6 @@
 package infownd;
 
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
@@ -50,6 +51,7 @@ public class OrderAddFrame extends JFrame {
 		 */
 
 		JLabel lblNewLabel = new JLabel("\u60A8\u9009\u62E9\u7684\u573A\u6B21\u662F\uFF1A");
+		lblNewLabel.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 13));
 		lblNewLabel.setBounds(28, 30, 130, 15);
 		contentPane.add(lblNewLabel);
 
@@ -80,10 +82,12 @@ public class OrderAddFrame extends JFrame {
 		contentPane.add(begin_time);
 
 		JLabel lblNewLabel_1 = new JLabel("\u8BF7\u9009\u62E9\u5EA7\u4F4D\uFF1A");
+		lblNewLabel_1.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 13));
 		lblNewLabel_1.setBounds(28, 153, 92, 15);
 		contentPane.add(lblNewLabel_1);
 
 		JButton chooseSeat = new JButton("Ñ¡Ôñ");
+		chooseSeat.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 13));
 		chooseSeat.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				SeatChooseFrame scf = new SeatChooseFrame(info.id, info.hall_id, 1);
@@ -113,11 +117,17 @@ public class OrderAddFrame extends JFrame {
 		column.setColumns(10);
 
 		JButton confirm = new JButton("È·ÈÏ¹ºÆ±");
+		confirm.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 13));
 		confirm.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				int i = Dao.createOrder(info.id, info.price, df.format(new Date()), Integer.parseInt(row.getText()),
-						Integer.parseInt(column.getText()), info.hall_id);
+				int i = 0;
+				try {
+					i = Dao.createOrder(info.id, info.price, df.format(new Date()), Integer.parseInt(row.getText()),
+							Integer.parseInt(column.getText()), info.hall_id);
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, "ÇëÏÈÑ¡Ôñ×ùÎ»");
+				}
 				if (i == 1) {
 					JOptionPane.showMessageDialog(null, "¶©Æ±³É¹¦");
 					dispose();

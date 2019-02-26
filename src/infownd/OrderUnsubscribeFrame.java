@@ -1,5 +1,6 @@
 package infownd;
 
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -34,6 +35,7 @@ public class OrderUnsubscribeFrame extends JFrame {
 		contentPane.setLayout(null);
 
 		JLabel lblNewLabel = new JLabel("\u60A8\u9009\u62E9\u7684\u573A\u6B21\u662F\uFF1A");
+		lblNewLabel.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 13));
 		lblNewLabel.setBounds(28, 30, 130, 15);
 		contentPane.add(lblNewLabel);
 
@@ -64,10 +66,12 @@ public class OrderUnsubscribeFrame extends JFrame {
 		contentPane.add(begin_time);
 
 		JLabel lblNewLabel_1 = new JLabel("\u8BF7\u9009\u62E9\u5EA7\u4F4D\uFF1A");
+		lblNewLabel_1.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 13));
 		lblNewLabel_1.setBounds(28, 153, 92, 15);
 		contentPane.add(lblNewLabel_1);
 
 		JButton chooseSeat = new JButton("Ñ¡Ôñ");
+		chooseSeat.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 13));
 		chooseSeat.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				SeatChooseFrame scf = new SeatChooseFrame(info.id, info.hall_id, 2);
@@ -97,10 +101,16 @@ public class OrderUnsubscribeFrame extends JFrame {
 		column.setColumns(10);
 
 		JButton unsubsribe = new JButton("ÍË¶©");
+		unsubsribe.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 13));
 		unsubsribe.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				int i = Dao.unsubscribeOrder(info.hall_id, info.id, Integer.parseInt(row.getText()),
-						Integer.parseInt(column.getText()));
+				int i = 0;
+				try {
+					i = Dao.unsubscribeOrder(info.hall_id, info.id, Integer.parseInt(row.getText()),
+							Integer.parseInt(column.getText()));
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, "ÇëÏÈÑ¡ÔñÍË¶©µÄ×ùÎ»");
+				}
 				if (i == 1) {
 					JOptionPane.showMessageDialog(null, "ÍË¶©³É¹¦");
 					dispose();

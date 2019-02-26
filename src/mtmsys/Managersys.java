@@ -1,6 +1,5 @@
 package mtmsys;
 
-import java.awt.EventQueue;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,26 +22,13 @@ public class Managersys extends JFrame {
 
 	private JPanel contentPane;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Managersys frame = new Managersys();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
 	/**
 	 * Create the frame.
 	 */
 	public Managersys() {
 		setTitle("\u4FE1\u606F\u7BA1\u7406\u754C\u9762");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 465, 287);
+		setBounds(100, 100, 421, 287);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -51,7 +37,7 @@ public class Managersys extends JFrame {
 		JLabel label = new JLabel("");
 		label.setBackground(SystemColor.activeCaptionBorder);
 		label.setIcon(new ImageIcon("img/manage.jpg"));
-		label.setBounds(0, 64, 449, 184);
+		label.setBounds(0, 64, 405, 184);
 		contentPane.add(label);
 
 		JToolBar toolBar = new JToolBar();
@@ -83,15 +69,13 @@ public class Managersys extends JFrame {
 		moiveHall.setOpaque(false);
 		toolBar.add(moiveHall);
 
-		JButton order = new JButton("售票管理  ");
-		order.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-
-			}
-		});
-		order.setBackground(SystemColor.activeCaptionBorder);
-		order.setOpaque(false);
-		toolBar.add(order);
+		/*
+		 * JButton order = new JButton("售票管理  "); order.addActionListener(new
+		 * ActionListener() { public void actionPerformed(ActionEvent arg0) {
+		 * 
+		 * } }); order.setBackground(SystemColor.activeCaptionBorder);
+		 * order.setOpaque(false); toolBar.add(order);
+		 */
 
 		JButton sellerInfo = new JButton("售票员信息管理  ");
 		sellerInfo.setBackground(UIManager.getColor("Button.background"));

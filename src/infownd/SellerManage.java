@@ -1,5 +1,6 @@
 package infownd;
 
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -48,6 +49,7 @@ public class SellerManage extends JFrame {
 		scrollPane.setViewportView(table);
 
 		JButton button = new JButton("查询售票员");
+		button.setFont(new Font("微软雅黑", Font.PLAIN, 13));
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				table.removeAll();
@@ -63,6 +65,7 @@ public class SellerManage extends JFrame {
 		contentPane.add(button);
 
 		JButton delete = new JButton("删除售票员");
+		delete.setFont(new Font("微软雅黑", Font.PLAIN, 13));
 		delete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
@@ -89,6 +92,7 @@ public class SellerManage extends JFrame {
 		contentPane.add(delete);
 
 		JButton add = new JButton("新增售票员");
+		add.setFont(new Font("微软雅黑", Font.PLAIN, 13));
 		add.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				SellerAddFrame saf = new SellerAddFrame();
@@ -100,6 +104,7 @@ public class SellerManage extends JFrame {
 		contentPane.add(add);
 
 		JButton modify = new JButton("修改信息");
+		modify.setFont(new Font("微软雅黑", Font.PLAIN, 13));
 		modify.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// 修改表格内容

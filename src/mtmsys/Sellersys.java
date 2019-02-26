@@ -142,12 +142,6 @@ public class Sellersys extends JFrame {
 		});
 		unsubscribe.setBackground(Color.DARK_GRAY);
 		unsubscribe.setForeground(SystemColor.window);
-		/*
-		 * unsubscribe.addActionListener(new ActionListener() { public void
-		 * actionPerformed(ActionEvent arg0) { OrderUnsubscribe ou = new
-		 * OrderUnsubscribe(); ou.setVisible(true);
-		 * ou.setDefaultCloseOperation(DISPOSE_ON_CLOSE); } });
-		 */
 		unsubscribe.setOpaque(false);
 		toolBar.add(unsubscribe);
 

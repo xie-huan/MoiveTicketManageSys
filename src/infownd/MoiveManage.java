@@ -1,5 +1,6 @@
 package infownd;
 
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -48,6 +49,7 @@ public class MoiveManage extends JFrame {
 		scrollPane.setViewportView(table);
 
 		JButton add = new JButton("\u6DFB\u52A0");
+		add.setFont(new Font("微软雅黑", Font.PLAIN, 13));
 		add.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				MoiveAddFrame maf = new MoiveAddFrame();
@@ -67,19 +69,24 @@ public class MoiveManage extends JFrame {
 		contentPane.add(add);
 
 		JButton modify = new JButton("\u4FEE\u6539");
+		modify.setFont(new Font("微软雅黑", Font.PLAIN, 13));
 		modify.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// 修改表格内容
-				int selrow = table.getSelectedRow();
-				int id = Integer.parseInt(table.getValueAt(selrow, 0).toString());
-				String name = table.getValueAt(selrow, 1).toString();
-				String dir = table.getValueAt(selrow, 2).toString();
-				String duration = table.getValueAt(selrow, 3).toString();
-				String description = table.getValueAt(selrow, 4).toString();
+				try {
+					int selrow = table.getSelectedRow();
+					int id = Integer.parseInt(table.getValueAt(selrow, 0).toString());
+					String name = table.getValueAt(selrow, 1).toString();
+					String dir = table.getValueAt(selrow, 2).toString();
+					String duration = table.getValueAt(selrow, 3).toString();
+					String description = table.getValueAt(selrow, 4).toString();
 
-				int i = Dao.UpdateMoive(id, name, dir, duration, description);
-				if (1 == i) {
-					JOptionPane.showMessageDialog(null, "修改成功！");
+					int i = Dao.UpdateMoive(id, name, dir, duration, description);
+					if (1 == i) {
+						JOptionPane.showMessageDialog(null, "修改成功！");
+					}
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, "请先选择影片");
 				}
 			}
 		});
@@ -87,21 +94,26 @@ public class MoiveManage extends JFrame {
 		contentPane.add(modify);
 
 		JButton delete = new JButton("\u5220\u9664");
+		delete.setFont(new Font("微软雅黑", Font.PLAIN, 13));
 		delete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int selrow = table.getSelectedRow();
-				int id = Integer.parseInt(table.getValueAt(selrow, 0).toString());
-				int i = Dao.DeleteMoive(id);
-				if (i == 1) {
-					JOptionPane.showMessageDialog(null, "删除成功！");
+				try {
+					int selrow = table.getSelectedRow();
+					int id = Integer.parseInt(table.getValueAt(selrow, 0).toString());
+					int i = Dao.DeleteMoive(id);
+					if (i == 1) {
+						JOptionPane.showMessageDialog(null, "删除成功！");
 
-					table.removeAll();
-					Object[][] results = getFileStates(Dao.selectMoiveInfo());
-					String[] columnNames = { "电影编号", "影片名称", "导演", "持续时间", "电影简述" };
-					table = new JTable(results, columnNames);
-					table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-					table.getColumnModel().getColumn(4).setPreferredWidth(170);
-					scrollPane.setViewportView(table);
+						table.removeAll();
+						Object[][] results = getFileStates(Dao.selectMoiveInfo());
+						String[] columnNames = { "电影编号", "影片名称", "导演", "持续时间", "电影简述" };
+						table = new JTable(results, columnNames);
+						table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+						table.getColumnModel().getColumn(4).setPreferredWidth(170);
+						scrollPane.setViewportView(table);
+					}
+				} catch (Exception e2) {
+					JOptionPane.showMessageDialog(null, "请先选择影片");
 				}
 			}
 		});

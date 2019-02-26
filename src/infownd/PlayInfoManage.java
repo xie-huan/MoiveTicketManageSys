@@ -1,5 +1,6 @@
 package infownd;
 
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -51,6 +52,7 @@ public class PlayInfoManage extends JFrame {
 		scrollPane.setViewportView(table);
 
 		JButton add = new JButton("添加放映信息");
+		add.setFont(new Font("微软雅黑", Font.PLAIN, 13));
 		add.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				PlayInfoAddFrame piaf = new PlayInfoAddFrame();
@@ -62,6 +64,7 @@ public class PlayInfoManage extends JFrame {
 		contentPane.add(add);
 
 		JButton del = new JButton("删除放映信息");
+		del.setFont(new Font("微软雅黑", Font.PLAIN, 13));
 		del.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -83,7 +86,7 @@ public class PlayInfoManage extends JFrame {
 					table.getColumnModel().getColumn(4).setPreferredWidth(150);
 					scrollPane.setViewportView(table);
 				} catch (Exception e1) {
-
+					JOptionPane.showMessageDialog(null, "请先选择场次");
 				}
 			}
 		});
@@ -91,24 +94,29 @@ public class PlayInfoManage extends JFrame {
 		contentPane.add(del);
 
 		JButton modify = new JButton("修改放映信息");
+		modify.setFont(new Font("微软雅黑", Font.PLAIN, 13));
 		modify.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// 修改表格内容
-				int selrow = table.getSelectedRow();
-				int id = Integer.parseInt(table.getValueAt(selrow, 0).toString());
-				float price = (float) Double.parseDouble(table.getValueAt(selrow, 3).toString());
+				try {
+					int selrow = table.getSelectedRow();
+					int id = Integer.parseInt(table.getValueAt(selrow, 0).toString());
+					float price = (float) Double.parseDouble(table.getValueAt(selrow, 3).toString());
 
-				int i = Dao.UpdateSchedule(id, price);
-				if (1 == i) {
-					JOptionPane.showMessageDialog(null, "修改成功！");
-					table.removeAll();
-					Object[][] results = getFileStates(Dao.selectPlayInfo());
-					String[] columnNames = { "放映编号", "影片名称", "放映厅", "价格", "放映日期" };
-					table = new JTable(results, columnNames);
-					table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-					table.getColumnModel().getColumn(1).setPreferredWidth(120);
-					table.getColumnModel().getColumn(4).setPreferredWidth(150);
-					scrollPane.setViewportView(table);
+					int i = Dao.UpdateSchedule(id, price);
+					if (1 == i) {
+						JOptionPane.showMessageDialog(null, "修改成功！");
+						table.removeAll();
+						Object[][] results = getFileStates(Dao.selectPlayInfo());
+						String[] columnNames = { "放映编号", "影片名称", "放映厅", "价格", "放映日期" };
+						table = new JTable(results, columnNames);
+						table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+						table.getColumnModel().getColumn(1).setPreferredWidth(120);
+						table.getColumnModel().getColumn(4).setPreferredWidth(150);
+						scrollPane.setViewportView(table);
+					}
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, "请先选择场次");
 				}
 			}
 		});
@@ -116,6 +124,7 @@ public class PlayInfoManage extends JFrame {
 		contentPane.add(modify);
 
 		JButton update = new JButton("刷    新");
+		update.setFont(new Font("微软雅黑", Font.PLAIN, 13));
 		update.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				table.removeAll();

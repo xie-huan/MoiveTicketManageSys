@@ -9,7 +9,6 @@ import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.Point;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
@@ -19,7 +18,6 @@ import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
@@ -262,7 +260,7 @@ public class DateChooserJButton extends JButton {
 			monthLabel.setForeground(controlTextColor);
 			result.add(monthLabel);
 
-//如果这里要能够选择,会要判断很多东西,比如每个月分别由多少日,以及闰年问题.所以,就干脆把Enable设为false
+			// 如果这里要能够选择,会要判断很多东西,比如每个月分别由多少日,以及闰年问题.所以,就干脆把Enable设为false
 			daySpin = new JSpinner(new SpinnerNumberModel(currentMonth, 1, 31, 1));
 			daySpin.setPreferredSize(new Dimension(35, 20));
 			daySpin.setName("Day");
@@ -547,7 +545,7 @@ public class DateChooserJButton extends JButton {
 			Calendar c = getCalendar();
 			c.set(Calendar.DAY_OF_MONTH, newDay);
 			setDate(c.getTime());
-//把daySpin中的值也变了
+			// 把daySpin中的值也变了
 			daySpin.setValue(Integer.valueOf(newDay));
 		}
 	}
