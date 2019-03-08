@@ -8,10 +8,13 @@
 系统用户：电影院管理员、电影院前台售票员；
 
 效果演示：
+
 管理员添加放映信息：
-![Add play info](demo/AddPalyInfo.gif)
+![Add play info](demo/AddPlayInfo.gif)
+
 管理员删除放映信息：
 ![Delete play info](demo/DeletePlayInfo.gif)
+
 管理员修改放映信息：
 ![Delete play info](demo/ModifyPlayInfo.gif)
 
