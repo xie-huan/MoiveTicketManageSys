@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="D:/Work/Java/数据库课设重做/mysql-connector-java-8.0.14.jar"/>
-	<classpathentry kind="lib" path="D:/Work/Java/数据库课设重做/calendar.jar"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry exported="true" kind="lib" path="D:/Work/Java/数据库课设重做/mysql-connector-java-8.0.14.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
