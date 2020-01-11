@@ -43,9 +43,9 @@
 
 1.配置要求：
 
-     1.1 Java环境：JDK、JRE；（自行百度安装即可）
+     1.1 Java环境：JDK、JRE；
      
-     1.2 数据库环境：MySQL8.0；（自行百度安装即可）
+     1.2 数据库环境：MySQL8.0；
      
            运行本项目，需要修改package dao里面的Dao.java文件，修改变量dbUser和dbPwd为自己的MySQL用户名和密码。
            
